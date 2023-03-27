@@ -1,0 +1,13 @@
+{
+    "name": "ronildo/todo-php",
+    "description": "A todo app made with PHP",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ronildo\\TodoPhp\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}
