@@ -1,5 +1,4 @@
 <?php
 
 require __DIR__ . "/vendor/autoload.php";
-
-echo "ok";
+require __DIR__ . "/src/config/routes.php";

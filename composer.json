@@ -9,5 +9,7 @@
         }
     },
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "coffeecode/router": "^2.0"
+    }
 }
