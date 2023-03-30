@@ -14,9 +14,9 @@ class Connection
             return self::$instance;
         }
 
-        $dsn = sprintf("mysql:dbname=%s;host=%s", $_ENV['DB_NAME'], $_ENV['DB_HOST']);
-        $user = $_ENV['DB_USER'];
-        $password = $_ENV['DB_PASSWORD'];
+        $dsn = sprintf("mysql:dbname=%s;host=%s", DB_NAME, DB_HOST);
+        $user = DB_USER;
+        $password = DB_PASSWORD;
 
         self::$instance = new PDO($dsn, $user, $password, [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
