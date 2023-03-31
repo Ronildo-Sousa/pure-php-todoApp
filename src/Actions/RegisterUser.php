@@ -7,11 +7,14 @@ use Ronildo\TodoPhp\Entities\UserEntity;
 
 class RegisterUser
 {
-    public static function run(UserEntity $userData)
+    public static function run(UserEntity $userData): bool
     {
-        $user = new User();
-        $user->create($userData->toArray());
-
-        return $user->where('email', '=', $userData->email);
+        $user = (new User)->create($userData->toArray());
+        $_SESSION['user'] = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email
+        ];
+        return true;
     }
 }

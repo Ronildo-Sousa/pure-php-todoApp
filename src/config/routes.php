@@ -12,6 +12,9 @@ $router->group('auth');
 $router->get('/cadastro', 'AuthController:create');
 $router->post('/register', 'AuthController:store');
 
+$router->group('dashboard');
+$router->get('/tarefas', 'TaskController:index');
+
 $router->group(null);
 $router->get('/', function () {
     var_dump('ok');

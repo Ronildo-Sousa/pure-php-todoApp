@@ -38,6 +38,7 @@ abstract class Model
 
     public function create(array $data)
     {
+        $data['id'] = null;
         $columns = implode(",", $this->columns);
         foreach ($data as $key => $value) {
             $hasColumn = array_search($key, $this->columns);
@@ -45,12 +46,13 @@ abstract class Model
                 return false;
             }
         }
-
         $query = "INSERT INTO {$this->table} ({$columns}) VALUES (:" . implode(",:", $this->columns) . ")";
         $statement = $this->connection->prepare($query);
         $statement->execute($data);
 
-        return true;
+        $model = $this->find($this->connection->lastInsertId());
+
+        return $model;
     }
 
 

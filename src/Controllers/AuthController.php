@@ -13,8 +13,6 @@ class AuthController
 
     public function __construct()
     {
-        session_start();
-
         $this->view = new Engine(__DIR__ . "/../Resources/Views");
     }
 
@@ -32,6 +30,8 @@ class AuthController
             'password' => $_POST['password'],
         ]);
 
-        var_dump(RegisterUser::run($userData));
+        RegisterUser::run($userData);
+
+        header('location: ' . route('dashboard/tarefas'));
     }
 }
