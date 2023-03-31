@@ -8,7 +8,7 @@ class TaskController
 {
     public function __construct()
     {
-        if (!isset($_SESSION['user'])) header('location: ' . route('auth/cadastro'));
+        if (!isset($_SESSION['user'])) header('location: ' . route('auth/login'));
     }
 
     public function index()

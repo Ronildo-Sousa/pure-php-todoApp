@@ -11,6 +11,8 @@ $router->namespace('Ronildo\TodoPhp\Controllers');
 $router->group('auth');
 $router->get('/cadastro', 'AuthController:create');
 $router->post('/register', 'AuthController:store');
+$router->get('/login', 'AuthController:login');
+$router->post('/login', 'AuthController:auth');
 
 $router->group('dashboard');
 $router->get('/tarefas', 'TaskController:index');
