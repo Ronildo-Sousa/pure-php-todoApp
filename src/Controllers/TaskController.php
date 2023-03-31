@@ -14,6 +14,6 @@ class TaskController
     public function index()
     {
         $tasks = (new Task)->all();
-        var_dump($_SESSION['user']['name'], $tasks);
+        var_dump($tasks);
     }
 }

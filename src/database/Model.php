@@ -17,26 +17,26 @@ abstract class Model
     {
         $this->classPath = get_class($this);
         $this->connection = Connection::getConnetion();
-        $this->statement = new PDOStatement();
+        $this->statement = $this->connection->prepare("SELECT * FROM {$this->table}");
     }
 
     public function find(int $id)
     {
         $query = "SELECT * from {$this->table} WHERE id = {$id}";
-        $statement = $this->connection->prepare($query);
+        $this->statement = $this->connection->prepare($query);
 
-        $statement->execute();
-        return $statement->fetchObject($this->classPath);
+        $this->statement->execute();
+        return $this->statement->fetchObject($this->classPath);
     }
 
-    public function all(string $columns = '*')
+    public function all(string $columns = '*', string $orderBy = 'id', string $order = 'DESC')
     {
-        $query = "SELECT {$columns} from {$this->table}";
-        $statement = $this->connection->prepare($query);
+        $query = "SELECT {$columns} from {$this->table} ORDER BY {$orderBy} {$order}";
+        $this->statement = $this->connection->prepare($query);
 
-        $statement->execute();
+        $this->statement->execute();
 
-        return $statement->fetchAll(PDO::FETCH_CLASS, $this->classPath);
+        return $this->statement->fetchAll(PDO::FETCH_CLASS, $this->classPath);
     }
 
     public function create(array $data)
@@ -50,8 +50,8 @@ abstract class Model
             }
         }
         $query = "INSERT INTO {$this->table} ({$columns}) VALUES (:" . implode(",:", $this->columns) . ")";
-        $statement = $this->connection->prepare($query);
-        $statement->execute($data);
+        $this->statement = $this->connection->prepare($query);
+        $this->statement->execute($data);
 
         $model = $this->find($this->connection->lastInsertId());
 
@@ -70,7 +70,9 @@ abstract class Model
 
     public function first()
     {
-        $this->statement->queryString .= ' LIMIT 1';
+        $this->statement = $this->connection->prepare($this->statement->queryString . " LIMIT 1");
+
+        $this->statement->execute();
         $model = $this->statement->fetchObject($this->classPath);
 
         if (!$model) {
@@ -81,6 +83,13 @@ abstract class Model
 
     public function get()
     {
+        return $this->statement->fetchAll(PDO::FETCH_CLASS, $this->classPath);
+    }
+
+    public function orderBy(string $column = 'id', string $order = 'DESC')
+    {
+        $this->statement = $this->connection->prepare($this->statement->queryString . " ORDER BY {$column} {$order}");
+        $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_CLASS, $this->classPath);
     }
 }
