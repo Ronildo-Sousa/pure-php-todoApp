@@ -16,6 +16,9 @@ $router->post('/login', 'AuthController:auth');
 
 $router->group('dashboard');
 $router->get('/tarefas', 'TaskController:index');
+$router->get('/tarefas/nova', 'TaskController:create');
+$router->post('/task/store', 'TaskController:store');
+$router->get('/tarefas/show/{id}', 'TaskController:show');
 
 $router->group(null);
 $router->get('/', function () {

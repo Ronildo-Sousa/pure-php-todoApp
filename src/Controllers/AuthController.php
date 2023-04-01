@@ -2,21 +2,16 @@
 
 namespace Ronildo\TodoPhp\Controllers;
 
-use League\Plates\Engine;
 use Ronildo\TodoPhp\Actions\LoginUser;
 use Ronildo\TodoPhp\Actions\RegisterUser;
-use Ronildo\TodoPhp\database\Models\Task;
 use Ronildo\TodoPhp\Entities\UserEntity;
 
-class AuthController
+class AuthController extends BaseController
 {
-    private Engine $view;
-
     public function __construct()
     {
+        parent::__construct();
         if (isset($_SESSION['user'])) header('location: ' . route('dashboard/tarefas'));
-
-        $this->view = new Engine(__DIR__ . "/../Resources/Views");
     }
 
     public function create()
