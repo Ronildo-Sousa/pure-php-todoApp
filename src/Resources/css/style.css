@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+*{
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    color: white;
+    background-color: var(--back-color);
+}
+
+a{
+    text-decoration: none;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.task-decription{
+    width: 100%;
+    max-width: 70%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--card);
+    max-width: 50%;
+    border-radius: 15px;
+    padding: 20px;
+    gap: 20px;
+}
+
+.card:hover{
+    background-color: var(--card-hover);
+    cursor: pointer;
+}
+
+.card-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action{
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    margin: 0 5px;
+}
+
+.action.delete{
+    background-color: var(--delete-color);
+}
+
+.action.action.delete:hover{
+    background-color: var(--delete-color-hover);
+}
+
+.action.edit{
+    background-color: var(--edit-color);
+}
+
+.action.action.edit:hover{
+    background-color: var(--edit-color-hover);
+}
+
+.tag-span{
+    background-color: #5f67df;
+    padding: 5px;
+    border-radius: 15px;
+    font-size: small;
+}
+
+:root{
+    --back-color: #252745;
+    --delete-color: #e33a2e;
+    --delete-color-hover: #f72011;
+    --edit-color: #2872cc;
+    --edit-color-hover: #348af2;
+    --card: #32345c;
+    --card-hover: #353c9c;
+}

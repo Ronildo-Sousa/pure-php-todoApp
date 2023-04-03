@@ -7,7 +7,7 @@
     </div>
     <div>
         <label for="description">Descrição</label>
-        <input type="text" name="description" id="description" required value="lorem ipsum teste teste">
+        <textarea name="description" id="description" cols="30" rows="10" required></textarea>
     </div>
     <div>
         <label for="status">Status</label>
