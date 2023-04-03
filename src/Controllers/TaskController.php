@@ -92,7 +92,7 @@ class TaskController extends BaseController
             header('location: ' . route('dashboard/tarefas'));
         }
 
-        (new Task)->delete($data['id']);
+        $task->delete();
 
         header('location: ' . route('dashboard/tarefas'));
     }

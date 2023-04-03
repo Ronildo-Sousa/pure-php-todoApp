@@ -90,10 +90,13 @@ abstract class Model
         return $result;
     }
 
-    public function delete(int $id)
+    public function delete(array $ids = [])
     {
-        $query = "DELETE FROM {$this->table} WHERE id = {$id}";
+        (!empty($ids)) ? $toDeleteIds = implode(", ", $ids) : $toDeleteIds = implode(", ", (array)$this->id);
+
+        $query = "DELETE FROM {$this->table} WHERE id IN ({$toDeleteIds})";
         $this->statement = $this->connection->prepare($query);
+
         $result = $this->statement->execute();
         $this->statement = $this->connection->prepare("SELECT * FROM {$this->table}");
 
