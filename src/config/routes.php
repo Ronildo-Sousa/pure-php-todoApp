@@ -19,6 +19,7 @@ $router->get('/tarefas', 'TaskController:index');
 $router->get('/tarefas/nova', 'TaskController:create');
 $router->post('/task/store', 'TaskController:store');
 $router->get('/tarefas/show/{id}', 'TaskController:show');
+$router->get('/tarefas/delete/{id}', 'TaskController:destroy');
 
 $router->group(null);
 $router->get('/', function () {

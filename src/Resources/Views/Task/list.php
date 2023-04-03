@@ -47,7 +47,7 @@
                         <p><?= $task->description; ?></p>
                     </div>
                     <div>
-                        <a href="#" class="btn delete">
+                        <a href="<?= route("dashboard/tarefas/delete/{$task->id}") ?>" class="btn delete">
                             apagar
                         </a>
                     </div>

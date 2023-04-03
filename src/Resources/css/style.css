@@ -14,9 +14,6 @@ a{
     text-decoration: none;
     color: white;
 }
-a:hover{
-    color: var(--primary--color-hover);
-}
 
 button{
     border: none;
@@ -42,6 +39,7 @@ select{
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
 }
 
 .task-list {
@@ -70,6 +68,7 @@ select{
     align-items: center;
     padding: 20px;
     border-radius: 10px;
+    width: 100%;
     max-width: 60%;
     background-color: var(--card);
     gap: 15px;

@@ -90,6 +90,16 @@ abstract class Model
         return $result;
     }
 
+    public function delete(int $id)
+    {
+        $query = "DELETE FROM {$this->table} WHERE id = {$id}";
+        $this->statement = $this->connection->prepare($query);
+        $result = $this->statement->execute();
+        $this->statement = $this->connection->prepare("SELECT * FROM {$this->table}");
+
+        return $result;
+    }
+
     public function orderBy(string $column = 'id', string $order = 'DESC')
     {
         $this->statement = $this->connection->prepare($this->statement->queryString . " ORDER BY {$column} {$order}");

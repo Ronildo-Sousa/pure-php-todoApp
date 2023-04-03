@@ -69,13 +69,31 @@ class TaskController extends BaseController
 
     public function show(array $data)
     {
-        $task = (new Task)->find($data['id']);
+        $task = (new Task)->where('user_id', '=', $_SESSION['user']['id'])
+            ->where('id', '=', $data['id'])
+            ->first();
+
         if (!$task) {
-            header('location: ' . route('opps/{404}'));
+            header('location: ' . route('dashboard/tarefas'));
         }
         echo $this->view->render('Task/show', [
             'title' => $task->title,
             'task' => $task,
         ]);
+    }
+
+    public function destroy(array $data)
+    {
+        $task = (new Task)->where('user_id', '=', $_SESSION['user']['id'])
+            ->where('id', '=', $data['id'])
+            ->first();
+
+        if (!$task) {
+            header('location: ' . route('dashboard/tarefas'));
+        }
+
+        (new Task)->delete($data['id']);
+
+        header('location: ' . route('dashboard/tarefas'));
     }
 }
