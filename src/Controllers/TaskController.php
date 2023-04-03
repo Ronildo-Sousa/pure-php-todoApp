@@ -10,6 +10,8 @@ use Ronildo\TodoPhp\Enums\TaskType;
 
 class TaskController extends BaseController
 {
+    public array $tasks = [];
+
     public function __construct()
     {
         parent::__construct();
@@ -18,11 +20,26 @@ class TaskController extends BaseController
 
     public function index()
     {
-        $tasks = (new Task)->where('user_id', '=', $_SESSION['user']['id'])->get();
+        if (!empty($_GET['type']) && !empty($_GET['status'])) {
+            $type = TaskType::tryFrom($_GET['type'])->value;
+            $status = TaskStatus::TryFrom($_GET['status'])->value;
+
+            $this->tasks = (new Task)
+                ->where('user_id', '=', $_SESSION['user']['id'])
+                ->where('type', '=', $type)
+                ->where('status', '=', $status)
+                ->get();
+        } else {
+            $this->tasks = (new Task)
+                ->where('user_id', '=', $_SESSION['user']['id'])
+                ->get();
+        }
 
         echo $this->view->render('Task/list', [
             'title' => 'Minhas tarefas',
-            'tasks' => $tasks,
+            'tasks' => $this->tasks,
+            'types' => TaskType::cases(),
+            'status' => TaskStatus::cases(),
         ]);
     }
 

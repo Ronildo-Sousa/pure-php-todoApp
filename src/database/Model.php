@@ -61,9 +61,11 @@ abstract class Model
 
     public function where(string $column, string $operator, string $value)
     {
-        $query = "SELECT * from {$this->table} WHERE {$column} {$operator} '{$value}'";
-        $this->statement = $this->connection->prepare($query);
+        $hasWhere = str_contains($this->statement->queryString, 'WHERE');
 
+        $query = $this->statement->queryString . ((!$hasWhere) ? " WHERE" : " AND") . " {$column} {$operator} '{$value}'";
+
+        $this->statement = $this->connection->prepare($query);
         $this->statement->execute();
         return $this;
     }
@@ -83,7 +85,9 @@ abstract class Model
 
     public function get()
     {
-        return $this->statement->fetchAll(PDO::FETCH_CLASS, $this->classPath);
+        $result = $this->statement->fetchAll(PDO::FETCH_CLASS, $this->classPath);
+        $this->statement = $this->connection->prepare("SELECT * FROM {$this->table}");
+        return $result;
     }
 
     public function orderBy(string $column = 'id', string $order = 'DESC')

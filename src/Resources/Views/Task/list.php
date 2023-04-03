@@ -2,26 +2,33 @@
 
 <div class="task-list">
     <h1>Minha lista de tarefas</h1>
-    <form method="get" action="#" class="card search-form">
+    <form method="get" action="<?= route('dashboard/tarefas') ?>" class="card search-form">
         <div class="search-content">
             <span>Filtrar tarefas:</span>
             <div>
+                Tipo:
                 <select name="type" id="type">
-                    <option value="">manutenção</option>
+                    <?php foreach ($types as $type) : ?>
+                        <option value="<?= $type->value ?>"><?= $type->value ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div>
-                <select name="status" id="type">
-                    <option value="">manutenção</option>
+                Status:
+                <select name="status" id="status">
+                    <?php foreach ($status as $item) : ?>
+                        <option value="<?= $item->value ?>"><?= $item->value ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <button type="submit" class="btn">filtrar</button>
+            <a href="<?= route('dashboard/tarefas') ?>">limpar</a>
         </div>
     </form>
 
     <?php if (count($tasks) == 0) : ?>
         <div class="card">
-            Não há tarefas cadastradas.
+            Não há tarefas para mostrar !
         </div>
     <?php endif; ?>
 
