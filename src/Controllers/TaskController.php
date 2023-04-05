@@ -3,6 +3,7 @@
 namespace Ronildo\TodoPhp\Controllers;
 
 use Ronildo\TodoPhp\Actions\Task\CreateTask;
+use Ronildo\TodoPhp\Actions\Task\UpdateTask;
 use Ronildo\TodoPhp\database\Models\Task;
 use Ronildo\TodoPhp\Entities\TaskEntity;
 use Ronildo\TodoPhp\Enums\TaskStatus;
@@ -28,10 +29,12 @@ class TaskController extends BaseController
                 ->where('user_id', '=', $_SESSION['user']['id'])
                 ->where('type', '=', $type)
                 ->where('status', '=', $status)
+                ->orderBy()
                 ->get();
         } else {
             $this->tasks = (new Task)
                 ->where('user_id', '=', $_SESSION['user']['id'])
+                ->orderBy()
                 ->get();
         }
 
@@ -80,6 +83,42 @@ class TaskController extends BaseController
             'title' => $task->title,
             'task' => $task,
         ]);
+    }
+
+    public function edit(array $data)
+    {
+        $task = (new Task)->where('user_id', '=', $_SESSION['user']['id'])
+            ->where('id', '=', $data['id'])
+            ->first();
+
+        if (!$task) {
+            header('location: ' . route('dashboard/tarefas'));
+        }
+
+        echo $this->view->render('Task/update', [
+            'title' => 'Editar tarefa',
+            'task' => $task,
+            'status' => TaskStatus::cases(),
+            'types' => TaskType::cases(),
+        ]);
+    }
+
+    public function update()
+    {
+        $data = new TaskEntity(
+            filter_var($_POST['title'], FILTER_SANITIZE_SPECIAL_CHARS),
+            filter_var($_POST['description'], FILTER_SANITIZE_SPECIAL_CHARS),
+            TaskStatus::from($_POST['status'])->value,
+            TaskType::from($_POST['type'])->value,
+            $_SESSION['user']['id']
+        );
+        $task = (new Task)->find(filter_var($_POST['task_id'], FILTER_VALIDATE_INT));
+
+        $updated = UpdateTask::run($task, $data);
+
+        if ($updated) {
+            header('location: ' . route("dashboard/tarefas/show/{$task->id}"));
+        }
     }
 
     public function destroy(array $data)

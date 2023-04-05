@@ -5,6 +5,7 @@
         voltar
     </a>
     <div class="card">
+        <a href="<?= route("dashboard/tarefas/edit/{$task->id}") ?>" class="btn">edit</a>
         <div class="show-content">
             <h3><?= $task->title; ?></h3>
             <p><?= $task->description; ?></p>

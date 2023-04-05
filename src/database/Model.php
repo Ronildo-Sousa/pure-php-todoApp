@@ -41,23 +41,17 @@ abstract class Model
 
     public function create(array $data)
     {
-        $data['id'] = null;
-        $columns = implode(",", $this->columns);
-        foreach ($data as $key => $value) {
-            $hasColumn = array_search($key, $this->columns);
-            if ($hasColumn === false) {
-                return false;
-            }
+        if ($this->validateColumns($data)) {
+            $query = "INSERT INTO {$this->table} (" . implode(",", array_keys($data)) . ") VALUES (:" . implode(",:", array_keys($data)) . ")";
+            $this->statement = $this->connection->prepare($query);
+            $this->statement->execute($data);
+
+            $model = $this->find($this->connection->lastInsertId());
+
+            return $model;
         }
-        $query = "INSERT INTO {$this->table} ({$columns}) VALUES (:" . implode(",:", $this->columns) . ")";
-        $this->statement = $this->connection->prepare($query);
-        $this->statement->execute($data);
-
-        $model = $this->find($this->connection->lastInsertId());
-
-        return $model;
+        return null;
     }
-
 
     public function where(string $column, string $operator, string $value)
     {
@@ -90,6 +84,28 @@ abstract class Model
         return $result;
     }
 
+    public function update(array $data)
+    {
+        if ($this->validateColumns($data)) {
+            $binValues = [];
+            foreach ($data as $key => $value) {
+                if ($key == 'user_id') {
+                    unset($data['user_id']);
+                    continue;
+                }
+                $binValues[] = $key . ' = ' . ':' . $key;
+            }
+
+            $query = "UPDATE {$this->table} SET " .  implode(', ', $binValues)  . " WHERE id = {$this->id};";
+
+            $this->statement = $this->connection->prepare($query);
+            $this->statement->execute($data);
+
+            return true;
+        }
+        return false;
+    }
+
     public function delete(array $ids = [])
     {
         (!empty($ids)) ? $toDeleteIds = implode(", ", $ids) : $toDeleteIds = implode(", ", (array)$this->id);
@@ -107,6 +123,21 @@ abstract class Model
     {
         $this->statement = $this->connection->prepare($this->statement->queryString . " ORDER BY {$column} {$order}");
         $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_CLASS, $this->classPath);
+
+        return $this;
+    }
+
+    private function validateColumns(array &$data)
+    {
+        $data['id'] = null;
+        foreach ($data as $key => $value) {
+            $hasColumn = array_search($key, $this->columns);
+            if ($hasColumn === false) {
+                return false;
+            }
+        }
+        unset($data['id']);
+
+        return true;
     }
 }
