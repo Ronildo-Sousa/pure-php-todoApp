@@ -16,6 +16,8 @@ class TaskController extends BaseController
     public function __construct()
     {
         parent::__construct();
+        if (isset($_SESSION['errors'])) unset($_SESSION['errors']);
+
         if (!isset($_SESSION['user'])) header('location: ' . route('auth/login'));
     }
 
@@ -66,7 +68,7 @@ class TaskController extends BaseController
         ));
 
         if ($task) {
-            header('location: ' . route("dashboard/tarefas/show/{$task->id}"));
+            header('location: ' . route("dashboard/tarefas"));
         }
     }
 
@@ -102,7 +104,7 @@ class TaskController extends BaseController
         $updated = UpdateTask::run($task, $data);
 
         if ($updated) {
-            header('location: ' . route("dashboard/tarefas/show/{$task->id}"));
+            header('location: ' . route("dashboard/tarefas"));
         }
     }
 

@@ -24,9 +24,7 @@ $router->post('/task/update/{id}', 'TaskController:update');
 $router->get('/tarefas/delete/{id}', 'TaskController:destroy');
 
 $router->group(null);
-$router->get('/', function () {
-    var_dump('ok');
-});
+$router->get('/', 'AuthController:login');
 
 $router->group('oops');
 $router->get('/{errcode}', function ($data) {

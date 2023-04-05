@@ -50,6 +50,7 @@ select{
 
 .container{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -90,6 +91,57 @@ select{
 .task-decription{
     width: 100%;
     max-width: 70%;
+}
+
+.form {
+    max-width: 40% !important;
+    background-color: #f72011;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.form-input{
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: medium;
+}
+
+.form-item{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.form-action{
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-error{
+    width: 30%;
+    text-align: center;
+    padding: 5px;
+    background-color: var(--delete-color);
+    border-radius: 5px;
+}
+
+.select-group{
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+}
+.select-item{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.logo{
+    width: 80px;   
 }
 
 .card {
