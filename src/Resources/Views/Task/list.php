@@ -5,6 +5,9 @@
     <a href="<?= route('dashboard/tarefas/nova') ?>" class="new-task">
         +
     </a>
+    <a href="<?= route('auth/logout') ?>" class="logout">
+        Sair
+    </a>
 
     <h1>Minha lista de tarefas</h1>
     <form method="get" action="<?= route('dashboard/tarefas') ?>" class="card search-form">
@@ -38,28 +41,29 @@
     <?php endif; ?>
 
     <?php foreach ($tasks as $task) : ?>
-        <a href="<?= route("dashboard/tarefas/show/{$task->id}") ?>">
-            <div class="card">
-                <div class="task-content">
-                    <div class="task-header">
-                        <h3><?= $task->title; ?></h3>
-                        <div>
-                            <span class="tag-span"><?= $task->type; ?></span>
-                            <span class="tag-span"><?= $task->status; ?></span>
-                        </div>
+        <div class="card">
+            <div class="task-content">
+                <div class="task-header">
+                    <h3><?= $task->title; ?></h3>
+                    <div>
+                        <span class="tag-span"><?= $task->type; ?></span>
+                        <span class="tag-span"><?= $task->status; ?></span>
                     </div>
-                    <div class="task-body">
-                        <div class="task-decription">
-                            <p><?= $task->description; ?></p>
-                        </div>
-                        <div>
-                            <a href="<?= route("dashboard/tarefas/delete/{$task->id}") ?>" class="btn delete">
-                                apagar
-                            </a>
-                        </div>
+                </div>
+                <div class="task-body">
+                    <div class="task-decription">
+                        <p><?= $task->description; ?></p>
+                    </div>
+                    <div>
+                        <a href="<?= route("dashboard/tarefas/edit/{$task->id}") ?>" class="btn">
+                            editar
+                        </a>
+                        <a href="<?= route("dashboard/tarefas/delete/{$task->id}") ?>" class="btn delete">
+                            apagar
+                        </a>
                     </div>
                 </div>
             </div>
-        </a>
+        </div>
     <?php endforeach; ?>
 </div>

@@ -11,7 +11,9 @@ class AuthController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        if (isset($_SESSION['user'])) header('location: ' . route('dashboard/tarefas'));
+        if ($_GET['route'] != '/auth/logout' && isset($_SESSION['user'])) {
+            header('location: ' . route('dashboard/tarefas'));
+        }
     }
 
     public function create()
@@ -45,5 +47,11 @@ class AuthController extends BaseController
             header('location: ' . route('auth/login'));
         }
         header('location: ' . route('dashboard/tarefas'));
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['user']);
+        header('location: ' . route('auth/login'));
     }
 }

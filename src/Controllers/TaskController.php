@@ -70,21 +70,6 @@ class TaskController extends BaseController
         }
     }
 
-    public function show(array $data)
-    {
-        $task = (new Task)->where('user_id', '=', $_SESSION['user']['id'])
-            ->where('id', '=', $data['id'])
-            ->first();
-
-        if (!$task) {
-            header('location: ' . route('dashboard/tarefas'));
-        }
-        echo $this->view->render('Task/show', [
-            'title' => $task->title,
-            'task' => $task,
-        ]);
-    }
-
     public function edit(array $data)
     {
         $task = (new Task)->where('user_id', '=', $_SESSION['user']['id'])
